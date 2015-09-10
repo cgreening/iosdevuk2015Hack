@@ -13,13 +13,16 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet var mainGroup: WKInterfaceGroup!
     @IBOutlet var picker: WKInterfacePicker!
     
+    @IBOutlet var userButton: WKInterfaceButton!
+    @IBOutlet var computerButton: WKInterfaceButton!
+    
     let batWidth : CGFloat = 5
     let batHeight : CGFloat = 40
     
     let ballRadius : CGFloat = 5
     
     let screenWidth = WKInterfaceDevice.currentDevice().screenBounds.width
-    let screenHeight = WKInterfaceDevice.currentDevice().screenBounds.height - 20
+    let screenHeight = WKInterfaceDevice.currentDevice().screenBounds.height
     
     var userYpos = WKInterfaceDevice.currentDevice().screenBounds.height/2
     var userDy : CGFloat = 0
@@ -55,21 +58,15 @@ class InterfaceController: WKInterfaceController {
     }
     
     @IBAction func pickerAction(value: Int) {
-        if(value == 0) {
-            userDy = 100
-        } else if(value == 2) {
-            userDy = -100
-        } else {
-            userDy = 0
-        }
+        userDy = -30.0 * CGFloat(value - 6)
     }
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        picker!.setItems([WKPickerItem(), WKPickerItem(), WKPickerItem()])
-        picker!.setSelectedItemIndex(1);
+        picker!.setItems([WKPickerItem(),WKPickerItem(),WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem()])
+        picker!.setSelectedItemIndex(6);
         picker!.focus()
-        NSTimer.scheduledTimerWithTimeInterval(1.0/30.0, target: self, selector: "update", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(1.0/15.0, target: self, selector: "update", userInfo: nil, repeats: true)
     }
     
     func update() {
@@ -106,14 +103,21 @@ class InterfaceController: WKInterfaceController {
                 ballDy = -1.0
             }
             ballDx = -ballDx
-        } else  if(ballX > screenWidth - ballRadius) {
+        } else  if(ballX > screenWidth + ballRadius) {
             userScore = userScore + 1
+            
+            userButton.setTitle("\(userScore)")
+            
             ballDx = (rand()%2==0) ? -1 : 1
             ballDy = CGFloat((rand()%100) - 50)/100.0
             ballX = screenWidth/2
             ballY = screenHeight/2
-        } else if(ballX < ballRadius) {
+        } else if(ballX < 0 - ballRadius) {
             computerScore = computerScore + 1
+
+            computerButton.setTitle("\(computerScore)")
+
+            
             ballDx = (rand()%2==0) ? -1 : 1
             ballDy = CGFloat((rand()%100) - 50)/50.0
             ballX = screenWidth/2
@@ -126,7 +130,7 @@ class InterfaceController: WKInterfaceController {
         }
         
         if(ballY < computerYpos || ballY > computerYpos) {
-            computerDy = (ballY - computerYpos)
+            computerDy = 0.01*(ballY - computerYpos)
         }
         if(computerDy > computerSpeed) {
             computerDy = computerSpeed
@@ -148,7 +152,6 @@ class InterfaceController: WKInterfaceController {
     func draw() {
         UIGraphicsBeginImageContext(CGSize(width: screenWidth,height: screenHeight));
         let context : CGContext = UIGraphicsGetCurrentContext()!;
-        CGContextTranslateCTM(context, 0, -20);
         // draw the user bat
         CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
         CGContextFillRect(context, CGRect(x: 0, y: userYpos - batHeight/2, width: batWidth, height: batHeight));

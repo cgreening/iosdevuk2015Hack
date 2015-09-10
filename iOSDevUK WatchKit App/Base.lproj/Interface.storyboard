@@ -12,14 +12,18 @@
                     <items>
                         <group width="1" height="1" alignment="left" id="b9c-Ah-yCk">
                             <items>
-                                <group width="0.90000000000000002" alignment="left" alpha="0.01" layout="vertical" id="tsm-CY-EOZ">
+                                <group width="0.90000000000000002" alignment="left" layout="vertical" id="tsm-CY-EOZ">
                                     <items>
-                                        <button width="1" height="0.5" alignment="left" alpha="0.01" id="MvN-bX-m2R">
+                                        <button width="1" height="0.5" alignment="left" alpha="0.25" title="0" id="MvN-bX-m2R">
+                                            <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="60"/>
                                             <connections>
                                                 <action selector="upButton" destination="AgC-eL-Hgc" id="lCd-jN-KUl"/>
                                             </connections>
                                         </button>
-                                        <button width="1" height="0.5" alignment="left" alpha="0.01" id="YvH-c0-5Wd">
+                                        <button width="1" height="0.5" alignment="left" alpha="0.40000000000000002" title="0" id="YvH-c0-5Wd">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="font" type="boldSystem" pointSize="60"/>
                                             <connections>
                                                 <action selector="downButton" destination="AgC-eL-Hgc" id="bTx-Af-gav"/>
                                             </connections>
@@ -39,8 +43,10 @@
                         </group>
                     </items>
                     <connections>
+                        <outlet property="computerButton" destination="YvH-c0-5Wd" id="eud-uo-gMu"/>
                         <outlet property="mainGroup" destination="b9c-Ah-yCk" id="ReL-O6-mzl"/>
                         <outlet property="picker" destination="pXt-lJ-lKy" id="S1H-S8-kTk"/>
+                        <outlet property="userButton" destination="MvN-bX-m2R" id="hhW-S9-wHh"/>
                     </connections>
                 </controller>
             </objects>
