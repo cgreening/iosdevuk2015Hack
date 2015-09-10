@@ -21,6 +21,8 @@
 		884CF5041BA1F09400584199 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CF5031BA1F09400584199 /* ExtensionDelegate.swift */; };
 		884CF5061BA1F09400584199 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 884CF5051BA1F09400584199 /* Assets.xcassets */; };
 		884CF51C1BA1F15100584199 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884CF51B1BA1F15100584199 /* InterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		884CF5251BA21B2A00584199 /* bounce.caf in Resources */ = {isa = PBXBuildFile; fileRef = 884CF5231BA21B2A00584199 /* bounce.caf */; settings = {ASSET_TAGS = (); }; };
+		884CF5261BA21B2A00584199 /* failed.caf in Resources */ = {isa = PBXBuildFile; fileRef = 884CF5241BA21B2A00584199 /* failed.caf */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		884CF5051BA1F09400584199 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		884CF5071BA1F09400584199 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		884CF51B1BA1F15100584199 /* InterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		884CF5231BA21B2A00584199 /* bounce.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bounce.caf; sourceTree = "<group>"; };
+		884CF5241BA21B2A00584199 /* failed.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = failed.caf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +208,8 @@
 		884CF5001BA1F09400584199 /* iOSDevUK WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				884CF5231BA21B2A00584199 /* bounce.caf */,
+				884CF5241BA21B2A00584199 /* failed.caf */,
 				884CF5031BA1F09400584199 /* ExtensionDelegate.swift */,
 				884CF5051BA1F09400584199 /* Assets.xcassets */,
 				884CF5071BA1F09400584199 /* Info.plist */,
@@ -393,6 +399,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				884CF5061BA1F09400584199 /* Assets.xcassets in Resources */,
+				884CF5251BA21B2A00584199 /* bounce.caf in Resources */,
+				884CF5261BA21B2A00584199 /* failed.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
