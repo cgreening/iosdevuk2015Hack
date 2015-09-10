@@ -9,6 +9,16 @@
 import WatchKit
 import Foundation
 
+
+
+func loadSound(name: String) -> WKAudioFilePlayer {
+    let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "caf")!
+    let fileUrl = NSURL.fileURLWithPath(filePath)
+    let asset = WKAudioFileAsset(URL: fileUrl)
+    let playerItem = WKAudioFilePlayerItem(asset: asset)
+    return WKAudioFilePlayer(playerItem: playerItem)
+}
+
 class InterfaceController: WKInterfaceController {
     @IBOutlet var mainGroup: WKInterfaceGroup!
     @IBOutlet var picker: WKInterfacePicker!
@@ -43,6 +53,9 @@ class InterfaceController: WKInterfaceController {
     var userScore : Int = 0
     var computerScore : Int = 0
     
+//    var failedPlayer: WKAudioFilePlayer = loadSound("failed")
+//    var bouncePlayer: WKAudioFilePlayer = loadSound("bounce")
+    
     @IBAction func upButton() {
         if(userYpos > batHeight/2) {
             userYpos-=5
@@ -66,6 +79,7 @@ class InterfaceController: WKInterfaceController {
         picker!.setItems([WKPickerItem(),WKPickerItem(),WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem()])
         picker!.setSelectedItemIndex(6);
         picker!.focus()
+        
         NSTimer.scheduledTimerWithTimeInterval(1.0/15.0, target: self, selector: "update", userInfo: nil, repeats: true)
     }
     
@@ -93,6 +107,8 @@ class InterfaceController: WKInterfaceController {
             if(ballDy < 1.0) {
                 ballDy = -1.0
             }
+            WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Success)
+//            bouncePlayer.play()
         } else if(ballDx > 0 && (ballX > screenWidth - 2*ballRadius && ballY > computerYpos - batHeight / 2 && ballY < computerYpos + batHeight / 2)) {
             let cludge : CGFloat = ballY - userYpos
             ballDy += 0.5 * cludge / batHeight
@@ -103,6 +119,7 @@ class InterfaceController: WKInterfaceController {
                 ballDy = -1.0
             }
             ballDx = -ballDx
+//            bouncePlayer.play()
         } else  if(ballX > screenWidth + ballRadius) {
             userScore = userScore + 1
             
@@ -112,6 +129,8 @@ class InterfaceController: WKInterfaceController {
             ballDy = CGFloat((rand()%100) - 50)/100.0
             ballX = screenWidth/2
             ballY = screenHeight/2
+            WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Failure)
+//            failedPlayer.play()
         } else if(ballX < 0 - ballRadius) {
             computerScore = computerScore + 1
 
@@ -122,6 +141,7 @@ class InterfaceController: WKInterfaceController {
             ballDy = CGFloat((rand()%100) - 50)/50.0
             ballX = screenWidth/2
             ballY = screenHeight/2
+//            failedPlayer.play()
         }
         
         
