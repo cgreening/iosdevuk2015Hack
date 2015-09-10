@@ -72,20 +72,20 @@ class InterfaceController: WKInterfaceController {
     
     @IBAction func pickerAction(value: Int) {
 //        userDy = -30.0 * CGFloat(value - 6)
-        userYpos = screenHeight * CGFloat(100-value) / 100.0;
+        userYpos = screenHeight * CGFloat(20 - value) / 20.0;
     }
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
         var items = [WKPickerItem]()
-        for(var i=0; i<100; i++) {
+        for(var i=0; i < 20; i++) {
             items.append(WKPickerItem());
         }
         picker!.setItems(items)
-        picker!.setSelectedItemIndex(50);
+        picker!.setSelectedItemIndex(10);
         picker!.focus()
         
-        NSTimer.scheduledTimerWithTimeInterval(1.0/15.0, target: self, selector: "update", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(1.0 / 30.0, target: self, selector: "update", userInfo: nil, repeats: true)
     }
     
     func update() {
@@ -100,8 +100,8 @@ class InterfaceController: WKInterfaceController {
     }
     
     func simulate(delta : CGFloat) {
-        ballX += speed * delta * ballDx/30.0;
-        ballY += speed * delta * ballDy/30.0;
+        ballX += speed * delta * ballDx / 30.0;
+        ballY += speed * delta * ballDy / 30.0;
         if(ballDx < 0 && (ballX < 2*ballRadius && ballY > userYpos - batHeight / 2 && ballY < userYpos + batHeight / 2)) {
             let cludge : CGFloat = ballY - userYpos
             ballDy += 0.5 * cludge / batHeight
