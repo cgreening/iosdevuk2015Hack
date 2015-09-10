@@ -58,14 +58,14 @@ class InterfaceController: WKInterfaceController {
     
     @IBAction func upButton() {
         if(userYpos > batHeight/2) {
-            userYpos-=5
+            userYpos-=15
         }
         userDy = 0
     }
     
     @IBAction func downButton() {
         if(userYpos < screenHeight - batHeight/2) {
-            userYpos+=5
+            userYpos+=15
         }
         userDy = 0
     }
@@ -172,11 +172,12 @@ class InterfaceController: WKInterfaceController {
     func draw() {
         UIGraphicsBeginImageContext(CGSize(width: screenWidth,height: screenHeight));
         let context : CGContext = UIGraphicsGetCurrentContext()!;
+        CGContextTranslateCTM(context, 0, -10)
         // draw the user bat
         CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
         CGContextFillRect(context, CGRect(x: 0, y: userYpos - batHeight/2, width: batWidth, height: batHeight));
         // draw the computer bat
-        CGContextSetFillColorWithColor(context, UIColor(red: 161.0/255.0, green: 87.0/255.0, blue: 232.0/255.0, alpha: 1.0).CGColor)
+        CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
         CGContextFillRect(context, CGRect(x: screenWidth - batWidth, y: computerYpos - batHeight/2, width: batWidth, height: batHeight));
         // draw the ball
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
