@@ -71,13 +71,18 @@ class InterfaceController: WKInterfaceController {
     }
     
     @IBAction func pickerAction(value: Int) {
-        userDy = -30.0 * CGFloat(value - 6)
+//        userDy = -30.0 * CGFloat(value - 6)
+        userYpos = screenHeight * CGFloat(100-value) / 100.0;
     }
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
-        picker!.setItems([WKPickerItem(),WKPickerItem(),WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem(),WKPickerItem(), WKPickerItem(), WKPickerItem()])
-        picker!.setSelectedItemIndex(6);
+        var items = [WKPickerItem]()
+        for(var i=0; i<100; i++) {
+            items.append(WKPickerItem());
+        }
+        picker!.setItems(items)
+        picker!.setSelectedItemIndex(50);
         picker!.focus()
         
         NSTimer.scheduledTimerWithTimeInterval(1.0/15.0, target: self, selector: "update", userInfo: nil, repeats: true)
