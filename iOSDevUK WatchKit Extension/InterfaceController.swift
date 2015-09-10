@@ -176,7 +176,7 @@ class InterfaceController: WKInterfaceController {
         CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
         CGContextFillRect(context, CGRect(x: 0, y: userYpos - batHeight/2, width: batWidth, height: batHeight));
         // draw the computer bat
-        CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
+        CGContextSetFillColorWithColor(context, UIColor(red: 161.0/255.0, green: 87.0/255.0, blue: 232.0/255.0, alpha: 1.0).CGColor)
         CGContextFillRect(context, CGRect(x: screenWidth - batWidth, y: computerYpos - batHeight/2, width: batWidth, height: batHeight));
         // draw the ball
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
