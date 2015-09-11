@@ -10,43 +10,61 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="iOSDevUK_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <group width="1" height="1" alignment="left" id="b9c-Ah-yCk">
+                        <group width="1" alignment="left" id="6pU-lD-j60">
                             <items>
-                                <group width="0.90000000000000002" alignment="left" layout="vertical" id="tsm-CY-EOZ">
+                                <picker width="2" height="1" alignment="left" alpha="0.01" id="pXt-lJ-lKy" userLabel="Controller">
+                                    <connections>
+                                        <action selector="controllerAction:" destination="AgC-eL-Hgc" id="4Ak-14-KUg"/>
+                                    </connections>
+                                </picker>
+                                <group width="100" height="100" alignment="left" spacing="0.0" id="C7r-g1-oAd" userLabel="Game">
                                     <items>
-                                        <button width="1" height="0.5" alignment="left" alpha="0.25" title="0" id="MvN-bX-m2R">
-                                            <color key="titleColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="boldSystem" pointSize="60"/>
-                                            <connections>
-                                                <action selector="upButton" destination="AgC-eL-Hgc" id="lCd-jN-KUl"/>
-                                            </connections>
-                                        </button>
-                                        <button width="1" height="0.5" alignment="left" alpha="0.40000000000000002" title="0" id="YvH-c0-5Wd">
-                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="font" type="boldSystem" pointSize="60"/>
-                                            <connections>
-                                                <action selector="downButton" destination="AgC-eL-Hgc" id="bTx-Af-gav"/>
-                                            </connections>
-                                        </button>
-                                    </items>
-                                </group>
-                                <group width="0.10000000000000001" height="1" alignment="left" id="sej-eD-zPs">
-                                    <items>
-                                        <picker width="1" height="1" alignment="left" alpha="0.01" id="pXt-lJ-lKy">
-                                            <connections>
-                                                <action selector="pickerAction:" destination="AgC-eL-Hgc" id="Drl-b2-gfN"/>
-                                            </connections>
-                                        </picker>
+                                        <group width="0.050000000000000003" height="1" alignment="left" layout="vertical" spacing="0.0" id="TEd-vY-NxX" userLabel="LeftBatArea">
+                                            <items>
+                                                <group width="25" height="0.5" alignment="left" spacing="0.0" id="RKS-Fq-jHA" userLabel="yPos"/>
+                                                <group width="1" height="50" alignment="left" spacing="0.0" id="XQj-1r-DRp" userLabel="bat">
+                                                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </group>
+                                            </items>
+                                        </group>
+                                        <group width="0.89000000000000001" height="1" alignment="left" layout="vertical" spacing="0.0" id="z30-Pv-oaq" userLabel="BallArea">
+                                            <items>
+                                                <group width="1" height="50" alignment="left" spacing="0.0" id="aoJ-w1-kAx" userLabel="ballYpos"/>
+                                                <group width="1" alignment="left" spacing="0.0" id="t2f-tX-jGo">
+                                                    <items>
+                                                        <group width="50" height="100" alignment="left" spacing="0.0" id="xcU-Qw-FVY" userLabel="ballXPos"/>
+                                                        <group width="10" height="10" alignment="left" radius="5" spacing="0.0" id="kCb-n8-7F1">
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </group>
+                                                    </items>
+                                                </group>
+                                            </items>
+                                        </group>
+                                        <group width="0.050000000000000003" height="1" alignment="left" layout="vertical" spacing="0.0" id="JAO-Cj-jaa" userLabel="RightBarArea">
+                                            <items>
+                                                <group width="1" height="50" alignment="left" spacing="0.0" id="PAW-Kb-Z5h" userLabel="yPos"/>
+                                                <group width="1" height="50" alignment="left" spacing="0.0" id="wwM-vD-lCV" userLabel="bat">
+                                                    <color key="backgroundColor" red="0.98039215690000003" green="0.066666666669999999" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                </group>
+                                            </items>
+                                        </group>
                                     </items>
                                 </group>
                             </items>
                         </group>
                     </items>
                     <connections>
-                        <outlet property="computerButton" destination="YvH-c0-5Wd" id="eud-uo-gMu"/>
-                        <outlet property="mainGroup" destination="b9c-Ah-yCk" id="ReL-O6-mzl"/>
-                        <outlet property="picker" destination="pXt-lJ-lKy" id="S1H-S8-kTk"/>
-                        <outlet property="userButton" destination="MvN-bX-m2R" id="hhW-S9-wHh"/>
+                        <outlet property="ballAreaGroup" destination="z30-Pv-oaq" id="d3D-5e-g2q"/>
+                        <outlet property="ballXposGroup" destination="xcU-Qw-FVY" id="2on-su-T1z"/>
+                        <outlet property="ballYposGroup" destination="aoJ-w1-kAx" id="qWt-vg-FP7"/>
+                        <outlet property="controller" destination="pXt-lJ-lKy" id="G6S-yS-5qx"/>
+                        <outlet property="gameGroup" destination="C7r-g1-oAd" id="adw-2Y-5En"/>
+                        <outlet property="leftBatArea" destination="XQj-1r-DRp" id="oD6-2w-0t0"/>
+                        <outlet property="leftBatAreaGroup" destination="TEd-vY-NxX" id="zis-p3-cjO"/>
+                        <outlet property="leftBatYPosGroup" destination="RKS-Fq-jHA" id="G6E-MA-WDJ"/>
+                        <outlet property="rightBatArea" destination="wwM-vD-lCV" id="fEy-mf-Pfh"/>
+                        <outlet property="rightBatAreaGroup" destination="JAO-Cj-jaa" id="teb-zx-z8e"/>
+                        <outlet property="rightBatYPosGroup" destination="PAW-Kb-Z5h" id="Ll9-zp-o8o"/>
                     </connections>
                 </controller>
             </objects>

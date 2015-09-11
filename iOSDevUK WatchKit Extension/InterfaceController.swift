@@ -20,22 +20,31 @@ func loadSound(name: String) -> WKAudioFilePlayer {
 }
 
 class InterfaceController: WKInterfaceController {
-    @IBOutlet var mainGroup: WKInterfaceGroup!
-    @IBOutlet var picker: WKInterfacePicker!
+    @IBOutlet var controller: WKInterfacePicker!
+    @IBOutlet var gameGroup: WKInterfaceGroup!
+    @IBOutlet var ballAreaGroup: WKInterfaceGroup!
+    @IBOutlet var leftBatAreaGroup: WKInterfaceGroup!
+    @IBOutlet var rightBatAreaGroup: WKInterfaceGroup!
+    @IBOutlet var leftBatArea: WKInterfaceGroup!
+    @IBOutlet var rightBatArea: WKInterfaceGroup!
+    @IBOutlet var leftBatYPosGroup: WKInterfaceGroup!
+    @IBOutlet var rightBatYPosGroup: WKInterfaceGroup!
     
-    @IBOutlet var userButton: WKInterfaceButton!
-    @IBOutlet var computerButton: WKInterfaceButton!
+    @IBOutlet var ballYposGroup: WKInterfaceGroup!
+    @IBOutlet var ballXposGroup: WKInterfaceGroup!
     
     let batWidth : CGFloat = 5
-    let batHeight : CGFloat = 40
+    let batHeight : CGFloat = 50
     
     let ballRadius : CGFloat = 5
     
     let screenWidth = WKInterfaceDevice.currentDevice().screenBounds.width
-    let screenHeight = WKInterfaceDevice.currentDevice().screenBounds.height
+    let screenHeight = WKInterfaceDevice.currentDevice().screenBounds.height;
+    
+    var gameWidth : CGFloat = 0
+    var gameHeight : CGFloat = 0
     
     var userYpos = WKInterfaceDevice.currentDevice().screenBounds.height/2
-    var userDy : CGFloat = 0
     var computerYpos = WKInterfaceDevice.currentDevice().screenBounds.height/2
     
     var ballX = WKInterfaceDevice.currentDevice().screenBounds.width/2
@@ -56,23 +65,15 @@ class InterfaceController: WKInterfaceController {
 //    var failedPlayer: WKAudioFilePlayer = loadSound("failed")
 //    var bouncePlayer: WKAudioFilePlayer = loadSound("bounce")
     
-    @IBAction func upButton() {
-        if(userYpos > batHeight/2) {
-            userYpos-=15
-        }
-        userDy = 0
-    }
-    
-    @IBAction func downButton() {
-        if(userYpos < screenHeight - batHeight/2) {
-            userYpos+=15
-        }
-        userDy = 0
-    }
-    
-    @IBAction func pickerAction(value: Int) {
-//        userDy = -30.0 * CGFloat(value - 6)
+    @IBAction func controllerAction(value: Int) {
         userYpos = screenHeight * CGFloat(20 - value) / 20.0;
+        if(userYpos - batHeight/2 < 0) {
+            userYpos = batHeight/2;
+        }
+        if(userYpos + batHeight/2 > gameHeight) {
+            userYpos = gameHeight - batHeight/2;
+        }
+        leftBatYPosGroup.setHeight(userYpos - batHeight/2);
     }
     
     override func awakeWithContext(context: AnyObject?) {
@@ -81,9 +82,22 @@ class InterfaceController: WKInterfaceController {
         for(var i=0; i < 20; i++) {
             items.append(WKPickerItem());
         }
-        picker!.setItems(items)
-        picker!.setSelectedItemIndex(10);
-        picker!.focus()
+        controller!.setItems(items)
+        controller!.setSelectedItemIndex(10);
+        controller!.focus()
+        
+        gameWidth = screenWidth - 10;
+        gameHeight = screenHeight - 15;
+        gameGroup.setWidth(gameWidth);
+        gameGroup.setHeight(gameHeight);
+        
+        leftBatAreaGroup.setWidth(batWidth);
+        rightBatAreaGroup.setWidth(batWidth);
+        ballAreaGroup.setWidth(gameWidth - 2 * batWidth);
+        leftBatArea.setHeight(batHeight);
+        rightBatArea.setHeight(batHeight);
+        leftBatYPosGroup.setHeight(gameHeight/2 - batHeight/2);
+        rightBatYPosGroup.setHeight(gameHeight/2 - batHeight/2);
         
         NSTimer.scheduledTimerWithTimeInterval(1.0 / 30.0, target: self, selector: "update", userInfo: nil, repeats: true)
     }
@@ -95,14 +109,17 @@ class InterfaceController: WKInterfaceController {
         }
         let delta : CGFloat = CGFloat(currentTime - lastTime);
         simulate(delta);
-        draw();
+        
+        rightBatYPosGroup.setHeight(computerYpos - batHeight/2);
+        ballXposGroup.setWidth(max(0, ballX - ballRadius));
+        ballYposGroup.setHeight(max(0, ballY - ballRadius));
         lastTime = currentTime
     }
     
     func simulate(delta : CGFloat) {
         ballX += speed * delta * ballDx / 30.0;
         ballY += speed * delta * ballDy / 30.0;
-        if(ballDx < 0 && (ballX < 2*ballRadius && ballY > userYpos - batHeight / 2 && ballY < userYpos + batHeight / 2)) {
+        if(ballDx < 0 && (ballX < ballRadius && ballY > userYpos - batHeight / 2 && ballY < userYpos + batHeight / 2)) {
             let cludge : CGFloat = ballY - userYpos
             ballDy += 0.5 * cludge / batHeight
             ballDx = -ballDx;
@@ -114,7 +131,7 @@ class InterfaceController: WKInterfaceController {
             }
             WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Success)
 //            bouncePlayer.play()
-        } else if(ballDx > 0 && (ballX > screenWidth - 2*ballRadius && ballY > computerYpos - batHeight / 2 && ballY < computerYpos + batHeight / 2)) {
+        } else if(ballDx > 0 && (ballX > gameWidth - 2*ballRadius && ballY > computerYpos - batHeight / 2 && ballY < computerYpos + batHeight / 2)) {
             let cludge : CGFloat = ballY - userYpos
             ballDy += 0.5 * cludge / batHeight
             if(ballDy > 1.0) {
@@ -128,7 +145,6 @@ class InterfaceController: WKInterfaceController {
         } else  if(ballX > screenWidth + ballRadius) {
             userScore = userScore + 1
             
-            userButton.setTitle("\(userScore)")
             
             ballDx = (rand()%2==0) ? -1 : 1
             ballDy = CGFloat((rand()%100) - 50)/100.0
@@ -136,11 +152,8 @@ class InterfaceController: WKInterfaceController {
             ballY = screenHeight/2
             WKInterfaceDevice.currentDevice().playHaptic(WKHapticType.Failure)
 //            failedPlayer.play()
-        } else if(ballX < 0 - ballRadius) {
+        } else if(ballX  < ballRadius) {
             computerScore = computerScore + 1
-
-            computerButton.setTitle("\(computerScore)")
-
             
             ballDx = (rand()%2==0) ? -1 : 1
             ballDy = CGFloat((rand()%100) - 50)/50.0
@@ -150,7 +163,7 @@ class InterfaceController: WKInterfaceController {
         }
         
         
-        if(ballY < ballRadius*2 || ballY > screenHeight + ballRadius*2) {
+        if(ballY < ballRadius || ballY > gameHeight - ballRadius) {
             ballDy = -ballDy
         }
         
@@ -165,41 +178,11 @@ class InterfaceController: WKInterfaceController {
         }
         computerYpos += speed * delta * computerDy
         
-        userYpos += delta * userDy
-        if(userYpos < 0) {
-            userYpos = 0
+        if(computerYpos - batHeight/2 < 0) {
+            computerYpos = batHeight/2
         }
-        if(userYpos > screenHeight) {
-            userYpos = screenHeight
+        if(computerYpos > gameHeight - batHeight/2) {
+            computerYpos = gameHeight - batHeight/2
         }
     }
-    
-    func draw() {
-        UIGraphicsBeginImageContext(CGSize(width: screenWidth,height: screenHeight));
-        let context : CGContext = UIGraphicsGetCurrentContext()!;
-        CGContextTranslateCTM(context, 0, -10)
-        // draw the user bat
-        CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
-        CGContextFillRect(context, CGRect(x: 0, y: userYpos - batHeight/2, width: batWidth, height: batHeight));
-        // draw the computer bat
-        CGContextSetFillColorWithColor(context, UIColor.redColor().CGColor)
-        CGContextFillRect(context, CGRect(x: screenWidth - batWidth, y: computerYpos - batHeight/2, width: batWidth, height: batHeight));
-        // draw the ball
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillEllipseInRect(context, CGRect(x: ballX - ballRadius, y: ballY - ballRadius, width: ballRadius*2, height: ballRadius*2))
-        let uiImage = UIGraphicsGetImageFromCurrentImageContext();
-        mainGroup.setBackgroundImage(uiImage);
-        UIGraphicsEndImageContext()
-    }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-    }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
-    }
-
 }
